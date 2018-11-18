@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "com.unitbv.tema2.model")
 @SpringBootApplication
 public class Tema2Application {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Tema2Application.class, args);
 	}

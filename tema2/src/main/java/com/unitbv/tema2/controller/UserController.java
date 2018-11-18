@@ -34,10 +34,6 @@ public class UserController {
 	public User findOne(@PathVariable("id") String userId){
 		return service.findOne(userId);
 	}
-	@RequestMapping(value="/hello", method=RequestMethod.GET)
-	public String helloName(@RequestParam String name){
-		return "Hello"+name;
-	}
 	@ResponseBody
 	@RequestMapping(method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public User create(@RequestBody User user){
