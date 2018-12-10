@@ -2,30 +2,41 @@ version: '3.7'
 
 services:
   mysqldb:
-    image: mysql:5.7
+    build:
+      context: . 
+      dockerfile: SQLDockerfile
     ports:
-      - 3306:3306
+      - "6603:3306"
+    networks:
+      - springdbnet
     environment:
-      - MYSQL_ROOT_PASSWORD=1q2w3e
       - MYSQL_DATABASE=UsersData
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=1q2w3e
-    volumes:
-      - /data/mysql
+      - MYSQL_ROOT_PASSWORD=1q2w3e
+      - MYSQL_HOST=localhost
+    container_name: mysqldb
+
   tema2-rest-app:
-    image: tema2-rest-app
-    build:
-      context: ./
+    build: 
+      context: .
       dockerfile: Dockerfile
     depends_on:
       - mysqldb
     ports:
-      - 8087:8080
+      - "9876:8580"
+    networks:
+      - springdbnet
     volumes:
-      - /data/tema2-app
+      - .:/vol/development
     environment:
       - DATABASE_HOST=mysqldb
-      - DATABASE_USER=admin
+      - DATABASE_USER=root
       - DATABASE_PASSWORD=1q2w3e
-      - DATABASE_NAME=UsersData
+      - DATABASE_NAME=UsersData  
       - DATABASE_PORT=3306
+    command: mvn clean spring-boot:run
+
+networks:
+  springdbnet:
+    driver: bridge
